@@ -6,14 +6,12 @@ package com.microsoft.azure
  * license information.
  */
 
-import org.apache.maven.plugin.AbstractMojo
-import org.apache.maven.plugin.MojoExecutionException
+import com.microsoft.azure.maven.AbstractAzureMojo
 import org.apache.maven.plugins.annotations.Mojo
 
 @Mojo(name = "sayHi")
-class MyMojo : AbstractMojo() {
-    @Throws(MojoExecutionException::class)
-    override fun execute() {
+class MyMojo : AbstractAzureMojo() {
+    override fun doExecute() {
         log.info("Hello world from kt!")
     }
 }
