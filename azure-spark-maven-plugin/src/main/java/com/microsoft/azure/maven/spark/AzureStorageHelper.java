@@ -15,6 +15,7 @@ import com.microsoft.azure.storage.blob.CloudBlockBlob;
 import java.io.File;
 import java.io.FileInputStream;
 
+@SuppressWarnings("nullness")
 public class AzureStorageHelper {
     public static String uploadFileAsBlob(final File fileToUpload, final CloudStorageAccount storageAccount,
                                           final String containerName, final String blobName) throws Exception {
