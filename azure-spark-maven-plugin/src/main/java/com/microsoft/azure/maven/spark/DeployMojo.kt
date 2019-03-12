@@ -23,6 +23,7 @@ import com.microsoft.azure.maven.spark.ux.MavenScheduler
 import com.microsoft.azure.storage.CloudStorageAccount
 import org.apache.maven.plugin.MojoFailureException
 import rx.subjects.PublishSubject
+import java.io.File
 import java.net.URI
 import java.util.*
 
@@ -52,6 +53,9 @@ class DeployMojo: AbstractAzureMojo() {
 
     @Parameter(property = "deploy.mainClass", required = true)
     var mainClass: String? = null
+
+    @Parameter(property = "deploy.artifactFile", required = false)
+    var artifactFile: File? = null
 
     override fun doExecute() {
         log.info("Uploading the artifact file to Azure Storage...")
@@ -94,7 +98,7 @@ class DeployMojo: AbstractAzureMojo() {
                 "DefaultEndpointsProtocol=https;AccountName=$storageAccountName;AccountKey=$storageKey;EndpointSuffix=$endpointSuffix")
         log.info("Storage account $storageAccount")
 
-        val artifactFile = project.artifact.file
+        val artifactFile = this.artifactFile ?: project.artifact.file ?: throw MojoFailureException("No artifact file specified.")
         val uploadPath = "SparkSubmission/$datePathSegmentsWithUuid/${artifactFile.name}"
         log.info("Deploy $artifactFile to $defaultFS/$uploadPath")
         val packageUri = AzureStorageHelper.uploadFileAsBlob(
