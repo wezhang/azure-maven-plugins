@@ -30,14 +30,14 @@ import java.util.*
 
 @Mojo(name = "deploy", defaultPhase = LifecyclePhase.DEPLOY)
 class DeployMojo: AbstractAzureMojo() {
-    val hdInsightAuthHelper = HDInsightAuthHelper(this)
+    private val hdInsightAuthHelper = HDInsightAuthHelper(this)
 
-    val hdInsightManager: HDInsightManager by lazy {
+    private val hdInsightManager: HDInsightManager by lazy {
         log.info("Only supports $AUTH_WITH_AZURE_CLI in POC")
         hdInsightAuthHelper.hdInsightManager
     }
 
-    val datePathSegmentsWithUuid: String
+    private val datePathSegmentsWithUuid: String
         get() {
             val year = Calendar.getInstance(TimeZone.getTimeZone("UTC")).get(Calendar.YEAR)
             val month = Calendar.getInstance(TimeZone.getTimeZone("UTC")).get(Calendar.MONTH) + 1
@@ -112,8 +112,8 @@ class DeployMojo: AbstractAzureMojo() {
 
         val hdiClusterDetail = HdiClusterDetail(cluster, coreSiteConfiguration, gatewayConfiguration)
 
-        var httpUsername = hdiClusterDetail.httpUserName ?: throw MojoFailureException("No username found from gateway configuration")
-        var httpPassword = hdiClusterDetail.httpPassword ?: throw MojoFailureException("No password found from gateway configuration")
+        val httpUsername = hdiClusterDetail.httpUserName ?: throw MojoFailureException("No username found from gateway configuration")
+        val httpPassword = hdiClusterDetail.httpPassword ?: throw MojoFailureException("No password found from gateway configuration")
 
         log.info("Use account $httpUsername to submit Spark application")
 

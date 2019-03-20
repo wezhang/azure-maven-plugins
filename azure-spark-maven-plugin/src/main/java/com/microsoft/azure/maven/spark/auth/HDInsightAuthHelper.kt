@@ -5,9 +5,10 @@ import com.microsoft.azure.credentials.MSICredentials
 import com.microsoft.azure.management.hdinsight.v2018_06_01_preview.implementation.HDInsightManager
 import com.microsoft.azure.maven.auth.AuthConfiguration
 import com.microsoft.azure.maven.auth.AzureAuthHelper
+import org.apache.maven.plugin.logging.Log
 
-class HDInsightAuthHelper(config: AuthConfiguration?) : AzureAuthHelper(config) {
-    val log
+class HDInsightAuthHelper(config: AuthConfiguration) : AzureAuthHelper(config) {
+    val log: Log
         get() = config.log
 
     val hdInsightManager: HDInsightManager
